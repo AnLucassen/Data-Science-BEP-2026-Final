@@ -1,0 +1,6 @@
+"part","seconds","share_pct"
+"whole search",24.14,100
+"all fits",24.14,100
+"successful fits",1.48,6.1
+"failed fits",22.66,93.9
+"everything else (generating candidates, too-small ones)",0,0

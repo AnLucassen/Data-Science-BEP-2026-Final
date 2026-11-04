@@ -30,7 +30,7 @@ class SEMTarget(object):
         statistics['size_sg'] = np.sum(sg_instances)
         return statistics
 
-
+class SEM_QF(BoundedInterestingnessMeasure):
     def __init__(self, keep_log=False):
         #counters (always) and a per-candidate log (only if asked)
         self.keep_log = keep_log

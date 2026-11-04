@@ -1,0 +1,4 @@
+"check","ok"
+"every description is counted exactly once",TRUE
+"the log has one row per description",TRUE
+"with log: same result as the original DFS",TRUE

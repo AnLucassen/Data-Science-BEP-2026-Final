@@ -1,0 +1,5 @@
+"algorithm","n_evaluated","n_below_30","n_below_min_size","n_root","n_fit","search_time_s"
+"DFS",64,37,0,1,26,23.77
+"Apriori",63,37,0,0,26,23.04
+"BestFirst",35,9,0,0,26,22.82
+"Beam",73,31,0,0,42,33.84

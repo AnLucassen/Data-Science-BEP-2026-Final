@@ -1,0 +1,65 @@
+"order","description","depth","size","quality","seconds"
+1,"Dataset",0,301,0,0.000133400004415307
+2,"school=='Pasteur'",1,156,111.094829121987,0.0681164999987232
+3,"school=='Grant-White' AND school=='Pasteur'",2,0,-1,0.000183499992999714
+4,"school=='Grant-White' AND school=='Pasteur' AND sex==1",3,0,-1,0.000116800001705997
+5,"school=='Grant-White' AND school=='Pasteur' AND sex==2",3,0,-1,6.39000063529238e-05
+6,"grade==-2147483648 AND school=='Grant-White' AND school=='Pasteur'",3,0,-1,7.78999965405092e-05
+7,"grade==7 AND school=='Grant-White' AND school=='Pasteur'",3,0,-1,5.79000043217093e-05
+8,"grade==8 AND school=='Grant-White' AND school=='Pasteur'",3,0,-1,5.0900001951959e-05
+9,"school=='Pasteur' AND sex==1",2,74,80.9442603640791,0.0826259999957983
+10,"school=='Pasteur' AND sex==1 AND sex==2",3,0,-1,0.000183100004505832
+11,"grade==-2147483648 AND school=='Pasteur' AND sex==1",3,0,-1,0.000138299998070579
+12,"grade==7 AND school=='Pasteur' AND sex==1",3,38,-1,12.0788972000009
+13,"grade==8 AND school=='Pasteur' AND sex==1",3,36,-1,10.2670268000002
+14,"school=='Pasteur' AND sex==2",2,82,74.3414273587787,0.0672312999959104
+15,"grade==-2147483648 AND school=='Pasteur' AND sex==2",3,0,-1,0.000183500000275671
+16,"grade==7 AND school=='Pasteur' AND sex==2",3,40,83.1325533527333,0.0741920000000391
+17,"grade==8 AND school=='Pasteur' AND sex==2",3,42,-1,0.070602499996312
+18,"grade==-2147483648 AND school=='Pasteur'",2,0,-1,0.000175100001797546
+19,"grade==-2147483648 AND grade==7 AND school=='Pasteur'",3,0,-1,5.99999984842725e-05
+20,"grade==-2147483648 AND grade==8 AND school=='Pasteur'",3,0,-1,4.04000020353124e-05
+21,"grade==7 AND school=='Pasteur'",2,78,-1,0.0619967999955406
+22,"grade==7 AND grade==8 AND school=='Pasteur'",3,0,-1,0.000184299999091309
+23,"grade==8 AND school=='Pasteur'",2,78,90.8788324479992,0.0715654000014183
+24,"school=='Grant-White'",1,145,111.094829121987,0.0737586999966879
+25,"school=='Grant-White' AND sex==1",2,72,61.9994115462996,0.0684098999990965
+26,"school=='Grant-White' AND sex==1 AND sex==2",3,0,-1,0.000179499998921528
+27,"grade==-2147483648 AND school=='Grant-White' AND sex==1",3,1,-1,5.81999993300997e-05
+28,"grade==7 AND school=='Grant-White' AND sex==1",3,36,-1,0.062436100000923
+29,"grade==8 AND school=='Grant-White' AND sex==1",3,35,70.3364936165963,0.0792873000027612
+30,"school=='Grant-White' AND sex==2",2,73,89.3718058973318,0.0649253000010503
+31,"grade==-2147483648 AND school=='Grant-White' AND sex==2",3,0,-1,0.000181900002644397
+32,"grade==7 AND school=='Grant-White' AND sex==2",3,43,99.3603382953424,0.0686048999996274
+33,"grade==8 AND school=='Grant-White' AND sex==2",3,30,86.1782130052643,0.0813602999987779
+34,"grade==-2147483648 AND school=='Grant-White'",2,1,-1,0.000175900000613183
+35,"grade==-2147483648 AND grade==7 AND school=='Grant-White'",3,0,-1,5.71999989915639e-05
+36,"grade==-2147483648 AND grade==8 AND school=='Grant-White'",3,0,-1,4.39999930677004e-05
+37,"grade==7 AND school=='Grant-White'",2,79,107.820370094525,0.0684204999997746
+38,"grade==7 AND grade==8 AND school=='Grant-White'",3,0,-1,0.000181600000360049
+39,"grade==8 AND school=='Grant-White'",2,65,94.9800133459403,0.0674841000000015
+40,"sex==1",1,146,77.8568524025359,0.0736495999954059
+41,"sex==1 AND sex==2",2,0,-1,0.000119399999675807
+42,"grade==-2147483648 AND sex==1 AND sex==2",3,0,-1,3.57000026269816e-05
+43,"grade==7 AND sex==1 AND sex==2",3,0,-1,2.55999984801747e-05
+44,"grade==8 AND sex==1 AND sex==2",3,0,-1,2.44999973801896e-05
+45,"grade==-2147483648 AND sex==1",2,1,-1,2.83000044873916e-05
+46,"grade==-2147483648 AND grade==7 AND sex==1",3,0,-1,2.5099994672928e-05
+47,"grade==-2147483648 AND grade==8 AND sex==1",3,0,-1,2.1699997887481e-05
+48,"grade==7 AND sex==1",2,74,-1,0.0603220999983023
+49,"grade==7 AND grade==8 AND sex==1",3,0,-1,0.000127499995869584
+50,"grade==8 AND sex==1",2,71,-1,0.0597081000014441
+51,"sex==2",1,155,77.8568524025359,0.188276699998823
+52,"grade==-2147483648 AND sex==2",2,0,-1,0.000119200005428866
+53,"grade==-2147483648 AND grade==7 AND sex==2",3,0,-1,3.94000016967766e-05
+54,"grade==-2147483648 AND grade==8 AND sex==2",3,0,-1,2.60999950114638e-05
+55,"grade==7 AND sex==2",2,83,76.8342966308765,0.0665657999998075
+56,"grade==7 AND grade==8 AND sex==2",3,0,-1,0.000122700002975762
+57,"grade==8 AND sex==2",2,72,92.9967303099311,0.0678449000042747
+58,"grade==-2147483648",1,1,-1,0.000111199995444622
+59,"grade==-2147483648 AND grade==7",2,0,-1,4.27999984822236e-05
+60,"grade==-2147483648 AND grade==7 AND grade==8",3,0,-1,3.14999997499399e-05
+61,"grade==-2147483648 AND grade==8",2,0,-1,2.08999990718439e-05
+62,"grade==7",1,157,97.0324887661709,0.0759028000029502
+63,"grade==7 AND grade==8",2,0,-1,0.000116499999421649
+64,"grade==8",1,143,97.0324887661709,0.0668768999967142
