@@ -1,0 +1,5 @@
+"algorithm","search_time_s","n_fit","memory_before_mb","peak_after_mb","extra_mb"
+"DFS",22.78,26,277.2,412.7,135.5
+"Apriori",22.63,26,276.9,420.7,143.8
+"BestFirst",22.47,26,277.1,417.2,140
+"Beam",33.29,42,276.7,413.9,137.2
