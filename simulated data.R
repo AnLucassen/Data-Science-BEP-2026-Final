@@ -88,5 +88,5 @@ myData[planted, paste0("x", 1:9)] <- plantedData[, paste0("x", 1:9)]
 
 #save
 dir.create("data/sim", recursive = TRUE, showWarnings = FALSE)
-write.csv(myData, "data/sim/base_seed20261005.csv", row.names = FALSE)
+write.csv(myData, "data/sim/seed42.csv", row.names = FALSE)
 str(myData)
