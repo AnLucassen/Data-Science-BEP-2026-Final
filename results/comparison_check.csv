@@ -1,0 +1,4 @@
+"check","ok"
+"same values as the paper",TRUE
+"same subgroups as the paper",TRUE
+"same result when run again",TRUE
