@@ -242,7 +242,19 @@ subgroupsem <- function(f_fit,
             py_main$bw <- as.integer(bw)
         }
         py_run_string("result = ps.BeamSearch(beam_width=bw).execute(task)")
-    } else {
+    } else if (algorithm == "Apriori") {
+      # BEP: Apriori from pysubgroup. No numba (no compiling during the
+      # search), no vectorisation (that mode does not work with SEM).
+      py_run_string(paste(
+        "apriori = ps.Apriori(use_numba=False)",
+        "apriori.use_vectorization = False",
+        "result = apriori.execute(task)",
+        sep = "\n"
+      ))
+    } else if (algorithm == "BestFirst") {
+      # BEP: best-first search from pysubgroup
+      py_run_string("result = ps.BestFirstSearch().execute(task)")
+        } else {
         warning(
             paste(
                 "subgroupsem warning:",
