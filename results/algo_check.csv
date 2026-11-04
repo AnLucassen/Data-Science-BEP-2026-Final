@@ -1,0 +1,5 @@
+"check","ok"
+"my DFS == original DFS (same order)",TRUE
+"Apriori == DFS (same top-10)",TRUE
+"BestFirst == DFS (same top-10)",TRUE
+"Beam == DFS (information only, may be FALSE)",TRUE
