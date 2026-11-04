@@ -2,6 +2,7 @@ from pysubgroup.measures import AbstractInterestingnessMeasure, \
     BoundedInterestingnessMeasure
 
 import numpy as np
+import time
 
 
 class SEMTarget(object):
@@ -30,9 +31,12 @@ class SEMTarget(object):
         return statistics
 
 
-class SEM_QF(BoundedInterestingnessMeasure):
-    def __init__(self):
-    	pass
+    def __init__(self, keep_log=False):
+        #counters (always) and a per-candidate log (only if asked)
+        self.keep_log = keep_log
+        self.n_evaluated = 0     # every description the algorithm scores
+        self.n_below_30 = 0      # rejected because it covers fewer than 30 rows
+        self.log = []            # one entry per description (if keep_log)
 
     # musste ich einfuegen. ist das neu?
     def calculate_constant_statistics(self, data, target):
@@ -46,19 +50,31 @@ class SEM_QF(BoundedInterestingnessMeasure):
     def optimistic_estimate(self, subgroup, target, data, statistics):
         return float("inf")
 
-    # Changed from "evaluate_from_data" to "calculate_statistics"
+#puts -1 in rval adn returns it at the end, first it stopped early with return -1
     def evaluate(self, subgroup, target, data, statistics):
-        #if len(subgroup.covers) == 0:
-        #    return -1
+        # BEP week 42: same steps as the original, plus counting and timing
+        self.n_evaluated += 1
+        t_start = time.perf_counter()
+
         instances = subgroup.covers(data)
-
         variables = [str(selector.attribute_name) for selector in subgroup.selectors]
-        
-        if (instances.sum() < 30):
-            return -1
+        size = int(instances.sum())
 
-        rval = f_fit(instances, variables)
+        if size < 30:
+            self.n_below_30 += 1
+            rval = -1
+        else:
+            rval = f_fit(instances, variables)
 
+        if self.keep_log:
+            self.log.append({
+                "order": self.n_evaluated,           # 1st, 2nd, ... description scored
+                "description": str(subgroup),       # e.g. school=='Pasteur'
+                "depth": len(subgroup.selectors),   # number of conditions
+                "size": size,                       # rows covered
+                "quality": float(rval),             # -1 = too small or failed fit
+                "seconds": time.perf_counter() - t_start,
+            })
         return rval
 
     def is_applicable(self, subgroup):

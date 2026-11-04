@@ -115,6 +115,7 @@ subgroupsem <- function(f_fit,
                         generalization_aware = FALSE,
                         na_rm = FALSE,
                         bw = NULL,
+                        keep_log = FALSE,
                         verbose = FALSE,
                         ...) {
 
@@ -165,6 +166,10 @@ subgroupsem <- function(f_fit,
     has_na <- sapply(columns, function(column) is.na(dat[, column]))
 
     subsem_county <- 1L
+    #counters on the R side 
+    n_below_min_size <- 0L #covers >= 30 rows but fewer than min_subgroup_size
+    n_root <- 0L # covers every row: scored 0 without fitting
+    n_fit <- 0L # a lavaan model is fitted
     f_fit_internal <- function(sg, selectors = NULL) {
         # Empty selectors are transfered as empty list...
         if (is.list(selectors)) selectors <- unlist(selectors)
@@ -178,7 +183,8 @@ subgroupsem <- function(f_fit,
         # Check if subgroup is big enough, else return -1
         if (!is.null(min_subgroup_size)) {
             if (sum(sg, na.rm = TRUE) < min_subgroup_size) {
-                return(-1)
+              n_below_min_size <<- n_below_min_size + 1L 
+              return(-1)
             }
         }
 
@@ -198,6 +204,12 @@ subgroupsem <- function(f_fit,
             subsem_county <<- subsem_county + 1L
         }
 
+        # the whole dataset is scored 0 without a fit
+        if (all(sg == 1, na.rm = TRUE)) {
+          n_root <<- n_root + 1L
+        } else {
+          n_fit <<- n_fit + 1L
+        }
         ## pass sg and dat to user specified function
         return(f_fit(sg, dat))
     }
@@ -221,7 +233,7 @@ subgroupsem <- function(f_fit,
         py_main$data,
         py_main$target,
         py_main$searchspace,
-        qf = py_main$SEM_QF(),
+        qf = py_main$SEM_QF(keep_log = keep_log),
         result_set_size = max_n_subgroups,
         depth = search_depth,
         min_quality = min_quality,
@@ -267,6 +279,18 @@ subgroupsem <- function(f_fit,
     # Import results
     obj@time_elapsed <- end - start
     obj@summary_statistics <- py_main$result$to_dataframe()
+    
+    # counters and (if asked) the per-candidate log
+    obj@counters <- list(
+      n_evaluated = py_main$task$qf$n_evaluated,
+      n_below_30 = py_main$task$qf$n_below_30,
+      n_below_min_size = n_below_min_size,
+      n_root = n_root,
+      n_fit = n_fit
+    )
+    if (keep_log) {
+      obj@log <- do.call(rbind, lapply(py_main$task$qf$log, as.data.frame))
+    }
 
     # At last try to remove everything on the Python site from memory
     clean_up_python()

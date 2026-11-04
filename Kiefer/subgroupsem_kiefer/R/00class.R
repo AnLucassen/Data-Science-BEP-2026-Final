@@ -8,7 +8,9 @@ setClass(
     representation(
         call = "call",
         time_elapsed = "difftime",
-        summary_statistics = "data.frame"
+        summary_statistics = "data.frame",
+        counters = "list",
+        log = "data.frame"
     )
 )
 
