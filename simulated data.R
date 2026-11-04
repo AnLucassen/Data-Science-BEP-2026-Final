@@ -5,22 +5,10 @@
 
 library(lavaan)
 
-seed <- 42
-N <- 1000
-
-analysis_model <- "
-  visual =~ NA*x1 + x2 + x3
-  textual =~ NA*x4 + x5 + x6
-  speed =~ NA*x7 + x8 + x9
-  visual ~~ 1*visual
-  textual ~~ 1*textual
-  speed ~~ 1*speed
-  visual + textual + speed ~ 0*1
-"
 # where the numbers below come from:
-parameterEstimates(sem(analysis_model, data = HolzingerSwineford1939))[, 1:4]
+#parameterEstimates(sem(analysis_model, data = HolzingerSwineford1939))[, 1:4]
 
-population_model <- "
+population.model <- "
   # factor loadings
   visual  =~ 0.900*x1 + 0.498*x2 + 0.656*x3
   textual =~ 0.990*x4 + 1.102*x5 + 0.917*x6
@@ -58,25 +46,47 @@ population_model <- "
   x9 ~ 5.374*1
 "
 
-population_model_planted <- sub(
-  "visual  =~ 0.900*x1 + 0.498*x2 + 0.656*x3",
-  "visual  =~ 0.450*x1 + 0.249*x2 + 0.328*x3",
-  population_model, fixed = TRUE)
-cat(population_model_planted)
+#generate data 
+set.seed(42)
+myData <- lavSimulateData(population.model, sample_nobs = 1000L)
 
-set.seed(seed)
-covariates <- data.frame(
-  C1  = sample(c("a", "b", "c"), N, replace = TRUE),
-  C2  = sample(c("a", "b", "c"), N, replace = TRUE),
-  Dc1 = sample(c("a", "b", "c"), N, replace = TRUE),
-  Dc2 = sample(c("a", "b", "c"), N, replace = TRUE),
-  Dn1 = rnorm(N),
-  Dn2 = rnorm(N)
-)
-head(covariates)
-planted <- covariates$C1 == "a" & covariates$C2 == "a"
+#population moments and sample moments 
+fitted(sem(population.model))
+round(cov(myData), 3)
+round(colMeans(myData), 3)
+
+#fit model 
+myModel <- '
+  visual =~ NA*x1 + x2 + x3
+  textual =~ NA*x4 + x5 + x6
+  speed =~ NA*x7 + x8 + x9
+  visual ~~ 1*visual
+  textual ~~ 1*textual
+  speed ~~ 1*speed
+  visual + textual + speed ~ 0*1
+'
+fit <- sem(myModel, data = myData)
+summary(fit)
+
+#added: covariates - subgroup are descrbied by these 
+myData$C1  <- sample(c("a", "b", "c"), 1000, replace = TRUE)
+myData$C2  <- sample(c("a", "b", "c"), 1000, replace = TRUE)
+myData$Dc1 <- sample(c("a", "b", "c"), 1000, replace = TRUE)
+myData$Dc2 <- sample(c("a", "b", "c"), 1000, replace = TRUE)
+myData$Dn1 <- rnorm(1000)
+myData$Dn2 <- rnorm(1000)
+
+#added: planted subgroup 
+#rows get new test scores from population model with halved visual loadings
+planted <- myData$C1 == "a" & myData$C2 == "a"
 sum(planted)
+population.model.planted <- sub("visual  =~ 0.900*x1 + 0.498*x2 + 0.656*x3",
+                                "visual  =~ 0.450*x1 + 0.249*x2 + 0.328*x3",
+                                population.model, fixed = TRUE)
+plantedData <- lavSimulateData(population.model.planted, sample_nobs = sum(planted))
+myData[planted, paste0("x", 1:9)] <- plantedData[, paste0("x", 1:9)]
 
-
-data_rest    <- simulateData(population_model,         sample.nobs = sum(!planted), seed = seed + 1)
-data_planted <- simulateData(population_model_planted, sample.nobs = sum(planted),  seed = seed + 2)
+#save
+dir.create("data/sim", recursive = TRUE, showWarnings = FALSE)
+write.csv(myData, "data/sim/base_seed20261005.csv", row.names = FALSE)
+str(myData)
