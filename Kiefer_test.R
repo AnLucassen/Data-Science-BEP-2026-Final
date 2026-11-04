@@ -58,4 +58,25 @@ res$subgroup <- sapply(res$subgroup, as.character)
 res$search_time_s <- round(as.numeric(fit@time_elapsed, units = "secs"), 2)
 res$date <- format(Sys.time(), "%Y-%m-%d %H:%M")
 
-write.csv(res, "results/hs_lrt_reproduced.csv", row.names = FALSE)
+write.csv(res, "results/kiefer.csv", row.names = FALSE)
+
+# ---- Compare with the paper (Kiefer et al. 2024, Table 5, left side) ----
+expected <- data.frame(
+  subgroup = c("school=='Grant-White'", "school=='Pasteur'",
+               "grade==7 AND school=='Grant-White'",
+               "grade==7 AND school=='Grant-White' AND sex==2", "grade==7"),
+  size_sg  = c(145, 156, 79, 43, 157),
+  quality  = c(111.09483, 111.09483, 107.82037, 99.36034, 97.03249)
+)
+top5 <- head(res, 5)
+same_values    <- isTRUE(all.equal(top5$quality, expected$quality, tolerance = 1e-6))
+same_subgroups <- setequal(paste(top5$subgroup, top5$size_sg),
+                           paste(expected$subgroup, expected$size_sg))
+
+# ---- Run again: must give exactly the same numbers ----
+fit2 <- subsem_lrt(model = model, data = HolzingerSwineford1939, predictors = covariates)
+deterministic <- identical(fit@summary_statistics$quality, fit2@summary_statistics$quality)
+
+cat("Same values as the paper:   ", same_values, "\n")
+cat("Same subgroups as the paper:", same_subgroups, "\n")
+cat("Same result when run again: ", deterministic, "\n")
