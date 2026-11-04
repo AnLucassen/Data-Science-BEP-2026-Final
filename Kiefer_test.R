@@ -50,3 +50,12 @@ fit <- subsem_lrt(
 #   lavaan_options = list(group.w.free = TRUE))
 
 summary(fit)
+
+dir.create("results", showWarnings = FALSE)
+
+res <- fit@summary_statistics
+res$subgroup <- sapply(res$subgroup, as.character)
+res$search_time_s <- round(as.numeric(fit@time_elapsed, units = "secs"), 2)
+res$date <- format(Sys.time(), "%Y-%m-%d %H:%M")
+
+write.csv(res, "results/hs_lrt_reproduced.csv", row.names = FALSE)
