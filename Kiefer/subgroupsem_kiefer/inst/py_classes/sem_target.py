@@ -30,7 +30,7 @@ class SEMTarget(object):
         return statistics
 
 
-class SEM_QF(AbstractInterestingnessMeasure):
+class SEM_QF(BoundedInterestingnessMeasure):
     def __init__(self):
     	pass
 
@@ -40,6 +40,11 @@ class SEM_QF(AbstractInterestingnessMeasure):
 
     def calculate_statistics(self, subgroup, target, data):
         pass
+      
+    # added: Apriori needs an upper bound. Infinity = never skip anything,
+    # so all algorithms stay exhaustive.
+    def optimistic_estimate(self, subgroup, target, data, statistics):
+        return float("inf")
 
     # Changed from "evaluate_from_data" to "calculate_statistics"
     def evaluate(self, subgroup, target, data, statistics):
