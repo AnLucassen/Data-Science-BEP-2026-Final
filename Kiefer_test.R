@@ -58,7 +58,9 @@ res$subgroup <- sapply(res$subgroup, as.character)
 res$search_time_s <- round(as.numeric(fit@time_elapsed, units = "secs"), 2)
 res$date <- format(Sys.time(), "%Y-%m-%d %H:%M")
 
-write.csv(res, "results/kiefer.csv", row.names = FALSE)
+# write.csv(res, "results/kiefer.csv", row.names = FALSE)
+# ^ switched off: kiefer.csv is the reference made with the ORIGINAL subgroupsem;
+#   it must not be overwritten by the modified package
 
 # ---- Compare with the paper (Kiefer et al. 2024, Table 5, left side) ----
 expected <- data.frame(
