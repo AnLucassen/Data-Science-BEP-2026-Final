@@ -1,14 +1,7 @@
-# Dependencies
-# install.packages("devtools")
-# devtools::install_github("langenberg/subgroupsem")
-
-# reticulate::install_python()
-# reticulate::py_install("pysubgroup==0.7.8", envname = "r-reticulate")
-# reticulate::use_virtualenv("r-reticulate", required = TRUE)
-
-library(subgroupsem)
-library(devtools)
+reticulate::use_python("C:/Users/20234345/AppData/Local/anaconda3/envs/BEP_DS_2026/python.exe",
+                       required = TRUE)
 library(lavaan)
+library(subgroupsem)
 
 # Modelling
 # 1. Specify model in lavaan syntax
