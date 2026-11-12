@@ -172,7 +172,7 @@ datasets <- list(
     rho = 0,
     distractors = list(
       list(type = "cat", n_classes = 3),
-      list(type = "num", sample_lb = 0, sample_ub = 1000)
+      list(type = "num")
     )
   ),
   
