@@ -54,9 +54,9 @@ create_sim_data <- function(
   # Generate data
   myData <- lavSimulateData(population_model, sample_nobs = settings$sample_size)
   
-  # Include planted covariates
-  myData$C1  <- sample(c("a", "b", "c"), settings$sample_size, replace = TRUE)
-  myData$C2  <- sample(c("a", "b", "c"), settings$sample_size, replace = TRUE)
+  # # Include planted covariates
+  # myData$C1  <- sample(c("a", "b", "c"), settings$sample_size, replace = TRUE)
+  # myData$C2  <- sample(c("a", "b", "c"), settings$sample_size, replace = TRUE)
   
   # Include distractors
   distractors <- settings$distractors
@@ -134,6 +134,8 @@ datasets <- list(
     distractors = list(
       list(type = "cat", n_classes = 3),
       list(type = "cat", n_classes = 3),
+      list(type = "cat", n_classes = 3),
+      list(type = "num"),
       list(type = "num"),
       list(type = "num")
     )
@@ -147,6 +149,8 @@ datasets <- list(
     distractors = list(
       list(type = "cat", n_classes = 3),
       list(type = "cat", n_classes = 3),
+      list(type = "cat", n_classes = 3),
+      list(type = "num"),
       list(type = "num"),
       list(type = "num")
     )
@@ -160,6 +164,8 @@ datasets <- list(
     distractors = list(
       list(type = "cat", n_classes = 3),
       list(type = "cat", n_classes = 3),
+      list(type = "cat", n_classes = 3),
+      list(type = "num"),
       list(type = "num"),
       list(type = "num")
     )
@@ -172,6 +178,8 @@ datasets <- list(
     rho = 0,
     distractors = list(
       list(type = "cat", n_classes = 3),
+      list(type = "cat", n_classes = 3),
+      list(type = "num"),
       list(type = "num")
     )
   ),
@@ -184,8 +192,10 @@ datasets <- list(
     distractors = list(
       list(type = "cat", n_classes = 3), list(type = "cat", n_classes = 3),
       list(type = "cat", n_classes = 3), list(type = "cat", n_classes = 3),
+      list(type = "cat", n_classes = 3),
       list(type = "num"), list(type = "num"),
-      list(type = "num"), list(type = "num")
+      list(type = "num"), list(type = "num"),
+      list(type = "num")
     )
   ),
   
@@ -195,6 +205,7 @@ datasets <- list(
     sample_size = 1000L,
     rho = 0,
     distractors = list(
+      list(type = "cat", n_classes = 3), list(type = "cat", n_classes = 3),
       list(type = "cat", n_classes = 3), list(type = "cat", n_classes = 3),
       list(type = "cat", n_classes = 3), list(type = "cat", n_classes = 3)
     )
@@ -206,6 +217,7 @@ datasets <- list(
     sample_size = 1000L,
     rho = 0,
     distractors = list(
+      list(type = "num"), list(type = "num"),
       list(type = "num"), list(type = "num"),
       list(type = "num"), list(type = "num")
     )
@@ -219,6 +231,8 @@ datasets <- list(
     distractors = list(
       list(type = "cat", n_classes = 2),
       list(type = "cat", n_classes = 2),
+      list(type = "cat", n_classes = 2),
+      list(type = "num"),
       list(type = "num"),
       list(type = "num")
     )
@@ -232,6 +246,8 @@ datasets <- list(
     distractors = list(
       list(type = "cat", n_classes = 6),
       list(type = "cat", n_classes = 6),
+      list(type = "cat", n_classes = 6),
+      list(type = "num"),
       list(type = "num"),
       list(type = "num")
     )
@@ -245,6 +261,8 @@ datasets <- list(
     distractors = list(
       list(type = "cat", n_classes = 3),
       list(type = "cat", n_classes = 3),
+      list(type = "cat", n_classes = 3),
+      list(type = "num"),
       list(type = "num"),
       list(type = "num")
     )
@@ -258,11 +276,14 @@ datasets <- list(
     distractors = list(
       list(type = "cat", n_classes = 3),
       list(type = "cat", n_classes = 3),
+      list(type = "cat", n_classes = 3),
+      list(type = "num"),
       list(type = "num"),
       list(type = "num")
     )
   )
 )
+
 
 for (seed in c(42, 43, 44)) {
 
