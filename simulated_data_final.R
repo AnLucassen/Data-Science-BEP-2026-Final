@@ -109,18 +109,18 @@ create_sim_data <- function(
     }
   }
   
-  # Define planted subgroup, and adjust the factor loading "visual" by half
-  planted <- myData$C1 == "a" & myData$C2 == "a"
+  # # Define planted subgroup, and adjust the factor loading "visual" by half
+  # planted <- myData$C1 == "a" & myData$C2 == "a"
   
-  population_model.planted <- sub(
-    "visual  =~ 0.900*x1 + 0.498*x2 + 0.656*x3",
-    "visual  =~ 0.450*x1 + 0.249*x2 + 0.328*x3",
-    population_model, fixed = TRUE
-  )
+  # population_model.planted <- sub(
+  #   "visual  =~ 0.900*x1 + 0.498*x2 + 0.656*x3",
+  #   "visual  =~ 0.450*x1 + 0.249*x2 + 0.328*x3",
+  #   population_model, fixed = TRUE
+  # )
   
-  # Generate adjusted values for planted subgroup & update myData
-  plantedData <- lavSimulateData(population_model.planted, sample_nobs = sum(planted))
-  myData[planted, paste0("x", 1:9)] <- plantedData[, paste0("x", 1:9)]
+  # # Generate adjusted values for planted subgroup & update myData
+  # plantedData <- lavSimulateData(population_model.planted, sample_nobs = sum(planted))
+  # myData[planted, paste0("x", 1:9)] <- plantedData[, paste0("x", 1:9)]
   
   return(myData)
 }
