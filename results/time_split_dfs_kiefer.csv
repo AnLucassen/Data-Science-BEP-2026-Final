@@ -1,6 +1,8 @@
 "part","seconds","share_pct"
-"whole search",24.14,100
-"all fits",24.14,100
-"successful fits",1.48,6.1
-"failed fits",22.66,93.9
-"everything else (generating candidates, too-small ones)",0,0
+"whole search",23.883,100
+"finding the pupils (t_cover, all candidates)",0.005,0
+"fitting, successful fits (t_fit)",1.256,5.3
+"fitting, failed fits (t_fit)",22.416,93.9
+"computing the score (t_score)",0.202,0.8
+"rest of candidates without a fit (t_fit: root, too small)",0,0
+"remaining time (building rules, top-10 list, algorithm)",0.002,0
