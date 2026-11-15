@@ -220,7 +220,7 @@ subsem_wald <- function(model,
       # re-order, so that order of groups is always clearly determined
       dat <- dat[order(dat$subgroup), ]
     }
-
+    t_score <- 0
     rval <- tryCatch(
       {
         # Fit Model
@@ -235,9 +235,12 @@ subsem_wald <- function(model,
         )
 
         stopifnot(lavInspect(fit, "post.check"))
-        # Compute interestingness measure
+        # Compute interestingness measure (t_score)
+        t_start_score <- Sys.time()
         lavwald <- lavTestWald(fit, constraints)
         rval <- lavwald$stat
+        t_score <- as.numeric(difftime(Sys.time(), t_start_score, units = "secs"))
+        rval
       },
       error = function(e) -1
     )
@@ -245,6 +248,7 @@ subsem_wald <- function(model,
     if (!is.numeric(rval) | length(rval) > 1) {
       rval <- -1
     }
+    attr(rval, "t_score") <- t_score
     return(rval)
   }
 
@@ -356,6 +360,7 @@ subsem_lrt <- function(model,
       dat$subgroup[apply(cbind(groupvar, sg), 1, anyNA)] <- NA
     }
 
+    t_score <- 0 #stays 0 if the fit fails before the score
     rval <- tryCatch(
       {
         # Fit Model
@@ -371,9 +376,12 @@ subsem_lrt <- function(model,
         )
         stopifnot(lavInspect(fit, "post.check"))
 
-        # Compute interestingness measure
+        # Compute interestingness measure (timed as t_score)
+        t_start_score <- Sys.time()
         tmp <- lavInspect(fit, "fit")
         rval <- abs(-2 * tmp["logl"] - basefitlog)
+        t_score <- as.numeric(difftime(Sys.time(), t_start_score, units = "secs"))
+        rval
       },
       error = function(e) -1
     )
@@ -381,7 +389,7 @@ subsem_lrt <- function(model,
     if (!is.numeric(rval) | length(rval) > 1) {
       rval <- -1
     }
-
+    attr(rval, "t_score") <- t_score #passed on to the log
     return(rval)
   }
 
