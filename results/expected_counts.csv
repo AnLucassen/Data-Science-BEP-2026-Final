@@ -1,0 +1,12 @@
+"design","depth","conditions","best_first","apriori","dfs"
+"2_values_per_category",3,21,961,1561,1562
+"6_values_per_category",3,33,3797,6017,6018
+"base_design",3,24,1493,2324,2325
+"correlation_high",3,24,1493,2324,2325
+"correlation_moderate",3,24,1493,2324,2325
+"few_distractors",3,16,350,696,697
+"large_sample_size",3,24,1493,2324,2325
+"many_distractors",3,40,8275,10700,10701
+"only_categorical",3,18,693,987,988
+"only_numerical",3,30,2905,4525,4526
+"small_sample_size",3,24,1493,2324,2325
