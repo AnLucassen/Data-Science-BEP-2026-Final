@@ -55,24 +55,34 @@ print(check, row.names = FALSE)
 one_row_per_description
 #table says all true 3 times and last one true as well
 
-#time divided from report and math and from google
-fitted <- log$size >= 30 & log$depth > 0
-failed <- fitted & log$quality == -1
+#time divided per step, from the log columns (t_cover, t_fit, t_score)
+fitted <- log$fitted
+failed <- log$failed
 search_s <- as.numeric(fit_log@time_elapsed, units = "secs")
 
 time_split <- data.frame(
-  part = c("whole search", "all fits", "successful fits", "failed fits",
-           "everything else (generating candidates, too-small ones)"),
-  seconds = round(c(search_s,
-                    sum(log$seconds[fitted]),
-                    sum(log$seconds[fitted & !failed]),
-                    sum(log$seconds[failed]),
-                    search_s - sum(log$seconds[fitted])), 2)
+  part = c("whole search",
+           "finding the pupils (t_cover, all candidates)",
+           "fitting, successful fits (t_fit)",
+           "fitting, failed fits (t_fit)",
+           "computing the score (t_score)",
+           "rest of candidates without a fit (t_fit: root, too small)",
+           "remaining time (building rules, top-10 list, algorithm)"),
+  seconds = c(search_s,
+              sum(log$t_cover),
+              sum(log$t_fit[fitted & !failed]),
+              sum(log$t_fit[failed]),
+              sum(log$t_score),
+              sum(log$t_fit[!fitted]),
+              search_s - sum(log$seconds))
 )
 time_split$share_pct <- round(100 * time_split$seconds / search_s, 1)
+time_split$seconds <- round(time_split$seconds, 3)
 print(time_split, row.names = FALSE)
+#the parts must add up to the whole search
+isTRUE(all.equal(sum(time_split$seconds[-1]), round(search_s, 3), tolerance = 1e-2))
 
-cat("Fits:", sum(fitted), " of which failed:", sum(failed), "\n")
+cat("Fits:", sum(fitted), " failed:", sum(failed), " repeated:", sum(log$repeated), "\n")
 
 #which are slow
 log[order(-log$seconds), c("description", "size", "quality", "seconds")][1:5, ]
