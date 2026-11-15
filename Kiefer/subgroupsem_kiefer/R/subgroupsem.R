@@ -170,6 +170,14 @@ subgroupsem <- function(f_fit,
     n_below_min_size <- 0L #covers >= 30 rows but fewer than min_subgroup_size
     n_root <- 0L # covers every row: scored 0 without fitting
     n_fit <- 0L # a lavaan model is fitted
+    # key of a group: which rows are in it and which are NA (set aside)
+    # two groups with the same key are exactly the same fit
+    group_key <- function(sg) {
+        in_group <- !is.na(sg) & sg == 1
+        pad <- logical((8L - length(sg) %% 8L) %% 8L)
+        paste(c(packBits(c(in_group, pad), type = "raw"),
+                packBits(c(is.na(sg), pad), type = "raw")), collapse = "")
+    }
     f_fit_internal <- function(sg, selectors = NULL) {
         # Empty selectors are transfered as empty list...
         if (is.list(selectors)) selectors <- unlist(selectors)
@@ -183,8 +191,8 @@ subgroupsem <- function(f_fit,
         # Check if subgroup is big enough, else return -1
         if (!is.null(min_subgroup_size)) {
             if (sum(sg, na.rm = TRUE) < min_subgroup_size) {
-              n_below_min_size <<- n_below_min_size + 1L 
-              return(-1)
+              n_below_min_size <<- n_below_min_size + 1L
+              return(list(quality = -1, fitted = FALSE, t_score = 0, key = ""))
             }
         }
 
@@ -205,13 +213,20 @@ subgroupsem <- function(f_fit,
         }
 
         # the whole dataset is scored 0 without a fit
-        if (all(sg == 1, na.rm = TRUE)) {
+        is_root <- all(sg == 1, na.rm = TRUE)
+        if (is_root) {
           n_root <<- n_root + 1L
         } else {
           n_fit <<- n_fit + 1L
         }
         ## pass sg and dat to user specified function
-        return(f_fit(sg, dat))
+        rval <- f_fit(sg, dat)
+        t_score <- attr(rval, "t_score")
+        if (is.null(t_score)) t_score <- 0
+        return(list(quality = as.numeric(rval)[1],
+                    fitted = !is_root,
+                    t_score = t_score,
+                    key = if (is_root) "" else group_key(sg)))
     }
     py_main$f_fit <- f_fit_internal
 
@@ -286,10 +301,13 @@ subgroupsem <- function(f_fit,
       n_below_30 = py_main$task$qf$n_below_30,
       n_below_min_size = n_below_min_size,
       n_root = n_root,
-      n_fit = n_fit
+      n_fit = n_fit,
+      n_failed = py_main$task$qf$n_failed,
+      n_repeated = py_main$task$qf$n_repeated
     )
     if (keep_log) {
       obj@log <- do.call(rbind, lapply(py_main$task$qf$log, as.data.frame))
+      obj@log <- cbind(algorithm = algorithm, obj@log)
     }
 
     # At last try to remove everything on the Python site from memory
